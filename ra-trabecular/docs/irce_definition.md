@@ -12,7 +12,10 @@
 
 Let
 
-M = Eᵉʳᵒᵈᵉᵈ* / Eʰᵉᵃˡᵗʰʸ*
+$$
+M = \frac{E^{*}_{\mathrm{eroded}}}
+         {E^{*}_{\mathrm{healthy}}}
+$$
 
 $$
 T=\frac{N_{LCC}}{N_{total}}
