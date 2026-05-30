@@ -2,71 +2,146 @@
 
 This document summarizes the theoretical pillars on which RA-Trabecular rests. Each pillar is independently established in the literature; the contribution of RA-Trabecular is to integrate the three under a common predictive framework specific to inflammatory bone disease.
 
-## 1. Trabecular bone as a cellular solid
+---
 
-Following the canonical treatment of Gibson and Ashby (1997), trabecular (cancellous) bone is mechanically modeled as an open-cell cellular solid. The effective elastic modulus $E^*$ scales with relative density $\rho^*/\rho_s$ as:
+## 1. Trabecular Bone as a Cellular Solid
 
-$$
-\frac{E^*}{E_s} = C \cdot \left(\frac{\rho^*}{\rho_s}\right)^n
-$$
+Following the canonical treatment of Gibson and Ashby (1997), trabecular (cancellous) bone is mechanically modeled as an open-cell cellular solid.
 
-with $n \approx 2$ for bending-dominated open-cell foams (the generic regime of cancellous bone), $n \approx 1$ for stretch-dominated structures, $C$ a geometric pre-factor, and $E_s$ the modulus of the solid bone matrix.
-
-**Critical limitation:** the Gibson-Ashby law assumes a *connected* network. Once the load-bearing backbone fragments, the scaling fails non-linearly. This is the regime of clinical interest.
-
-## 2. Voronoi tessellation as a generative geometric model
-
-A 3D Voronoi tessellation partitions space into convex polyhedral cells given a set of seed points. The edge graph of the tessellation is:
-
-- **Topologically faithful** to open-cell cellular solids (Roberts & Garboczi, 2002).
-- **Statistically tunable**: seed distribution controls cell-size distribution; anisotropic seed perturbation produces preferential alignment matching physiological trabecular orientation.
-- **Computationally tractable**: standard algorithms (Qhull, scipy.spatial) generate the tessellation in $O(N \log N)$ time.
-
-**Why Voronoi rather than CT-derived geometry?** Voronoi enables:
-1. Reproducible, parameterized degradation simulations.
-2. Analytical access via random geometric graph theory.
-3. Generation of large network ensembles for statistical analysis.
-
-Patient-specific CT-derived models remain the validation target (planned for v0.4.0) but are not the right level for theoretical development.
-
-## 3. Percolation and the rigidity transition
-
-Percolation theory (Stauffer & Aharony, 1994) studies the emergence of system-spanning connected components in random networks as a function of an occupation parameter $p$. For 3D random networks there exists a critical fraction $p_c$ at which the largest connected component undergoes a phase transition.
-
-Near the critical point, the order parameter — the fraction of nodes in the giant component — follows a universal scaling law:
+The normalized effective elastic modulus is approximated by
 
 $$
-P_\infty(p) \sim (p - p_c)^\beta
+\frac{E_{eff}}{E_{solid}}
+=========================
+
+C
+\left(
+\frac{\rho_{eff}}{\rho_{solid}}
+\right)^n
 $$
 
-with $\beta$ a critical exponent characteristic of the universality class.
+where:
 
-**Mechanical analog (rigidity percolation):** for bending-dominated networks, the effective elastic modulus exhibits a *rigidity transition* that generically *precedes* geometric percolation (Maxwell, 1864; Thorpe & Phillips). This means a network can lose its mechanical integrity while still being geometrically connected — its struts no longer form a rigid skeleton.
+* (E_{eff}) is the apparent elastic modulus of the trabecular structure.
+* (E_{solid}) is the modulus of the bone matrix.
+* (\rho_{eff}) is the apparent density.
+* (\rho_{solid}) is the density of solid bone tissue.
+* (C) is a geometric constant.
+* (n) is a topology-dependent exponent.
 
-This is exactly the regime in which RA-Trabecular predicts that standard density-based metrics fail catastrophically.
+Typical values are:
 
-## 4. RA-driven erosion as an erosion regime on the Voronoi graph
+* (n \approx 2) for bending-dominated open-cell structures.
+* (n \approx 1) for stretch-dominated structures.
 
-The framework treats RA-driven trabecular degradation as a stochastic edge-removal process on the Voronoi graph, with three regimes implemented in `erosion.py`:
+### Critical limitation
 
-| Regime | Biological motivation | Removal weight |
-|--------|----------------------|----------------|
-| Uniform | Control / baseline | Uniform |
-| Peripheral | Synovial-interface inflammatory erosion | Distance from domain center, squared |
-| Osteoclastic | Localized osteoclast activity fields | Sum of Gaussians around random hotspots |
+The Gibson–Ashby scaling law assumes a mechanically connected network.
 
-All three regimes share the same downstream pipeline (IRCE computation), enabling direct comparison.
+As trabeculae become disconnected, mechanical competence can collapse abruptly even when density remains relatively high. Density alone therefore becomes a poor predictor of structural integrity near failure.
 
-## 5. Why this integration is non-trivial
+---
 
-The three pillars exist in the literature in isolation:
+## 2. Voronoi Tessellation as a Generative Geometric Model
 
-- Gibson-Ashby is well-established in mechanical engineering but rarely combined with explicit topological metrics.
-- Voronoi models of bone exist (Kadkhodapour, Wang, et al.) but are usually used for scaffold design, not pathological degradation.
-- Percolation has been applied to osteoporotic bone (Parkinson & Fazzalari) but without an integrated, falsifiable mechanical index.
+A three-dimensional Voronoi tessellation partitions space into convex polyhedral cells generated from a set of seed points.
 
-RA-Trabecular's contribution is the IRCE: a single, dimensionless, bounded, computable metric that operationalizes the convergence of these three frameworks into a clinically meaningful trajectory.
+The resulting edge network provides a useful approximation of trabecular architecture because it is:
+
+* Topologically similar to open-cell cellular solids.
+* Statistically controllable through the seed distribution.
+* Computationally efficient to generate and analyze.
+
+### Advantages of a Voronoi Representation
+
+1. Reproducible generation of large synthetic trabecular networks.
+2. Direct control of density and anisotropy.
+3. Compatibility with graph-theoretic analysis.
+4. Compatibility with finite-element simulations.
+5. Access to analytical concepts from percolation theory.
+
+Patient-specific HR-pQCT and micro-CT models remain the long-term validation target, but are not required for theoretical development.
+
+---
+
+## 3. Percolation and the Rigidity Transition
+
+Percolation theory studies the emergence and disappearance of system-spanning connected components in random networks.
+
+Let
+
+$$
+p
+$$
+
+denote the fraction of surviving structural elements.
+
+There exists a critical threshold
+
+$$
+p_c
+$$
+
+at which the largest connected component undergoes a phase transition.
+
+Near this threshold, the giant component follows the scaling relation
+
+$$
+P_{\infty}(p)
+\sim
+(p-p_c)^{\beta}
+$$
+
+where:
+
+* (P_{\infty}) is the fraction of elements belonging to the giant connected component.
+* (p_c) is the critical threshold.
+* (\beta) is a critical exponent.
+
+### Mechanical Interpretation
+
+For cellular solids, loss of stiffness generally occurs before complete geometric disconnection.
+
+This phenomenon is known as rigidity percolation.
+
+A network may remain geometrically connected while no longer possessing a mechanically continuous load-bearing skeleton.
+
+This regime is the primary focus of RA-Trabecular.
+
+---
+
+## 4. RA-Driven Erosion as a Graph Degradation Process
+
+RA-Trabecular models inflammatory trabecular degradation as progressive edge removal on a Voronoi network.
+
+Three erosion regimes are implemented.
+
+| Regime       | Biological Motivation         | Removal Strategy          |
+| ------------ | ----------------------------- | ------------------------- |
+| Uniform      | Baseline control              | Random edge removal       |
+| Peripheral   | Synovial inflammatory erosion | Distance-weighted removal |
+| Osteoclastic | Localized osteoclast activity | Hotspot-driven removal    |
+
+Each erosion process generates a degradation trajectory that is evaluated using the IRCE framework.
+
+---
+
+## 5. Why This Integration Matters
+
+The three theoretical pillars already exist independently:
+
+* Cellular-solids theory provides density–stiffness relationships.
+* Voronoi modeling provides realistic synthetic trabecular geometries.
+* Percolation theory describes connectivity loss and critical transitions.
+
+However, these frameworks are rarely combined into a single quantitative model of inflammatory bone degradation.
+
+RA-Trabecular integrates them through the Index of Effective Mechanical Connectivity (IRCE), a dimensionless metric designed to track the progression from a mechanically competent trabecular network to a fragmented structure approaching failure.
+
+The central hypothesis is that clinically relevant deterioration is driven primarily by loss of connectivity rather than loss of mass alone.
+
+---
 
 ## References
 
-See `README.md` and the v1.0 concept paper for the full reference list.
+See the concept paper, README.md, and associated Zenodo release for the complete bibliography.
