@@ -4,7 +4,7 @@ This folder contains the computational notebooks for the RA-Trabecular framework
 
 ### Notebooks List
 
-* **01: First Reproducible Example** [ Ver vista previa rápida en GitHub (Recomendado)] (01_voronoi_basic.md) | [ Descargar archivo original (.ipynb)](01_voronoi_basic.ipynb) | 
+* **01: First Reproducible Example** Ver vista previa rápida en GitHub (Recomendado) "(01_voronoi_basic.md)"Luego: Descargar archivo original (.ipynb)(01_voronoi_basic.ipynb) | 
 
 This directory contains reproducible Jupyter notebooks demonstrating the RA-Trabecular framework.
 
