@@ -30,7 +30,7 @@ The theoretical basis of the project is described in:
 
 Zenodo DOI:
 
-https://zenodo.org/records/20466007
+https://doi.org/10.5281/zenodo.20467022
 
 ---
 
