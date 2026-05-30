@@ -10,11 +10,26 @@
 
 ## 1. Definition (additive form)
 
-Let
-
 $$
-M = \frac{E^{*}_{\mathrm{eroded}}}
-         {E^{*}_{\mathrm{healthy}}}
+\mathrm{IRCE}
+=
+\alpha
+\left(
+\frac{E^{*}_{\mathrm{eroded}}}
+     {E^{*}_{\mathrm{healthy}}}
+\right)
++
+\beta
+\left(
+\frac{N_{LCC}}
+     {N_{total}}
+\right)
++
+\gamma
+\left(
+\frac{A_{local}}
+     {A_{local}^{\mathrm{healthy}}}
+\right)
 $$
 
 $$
