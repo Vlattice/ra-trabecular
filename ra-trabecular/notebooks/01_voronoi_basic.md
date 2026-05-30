@@ -1,0 +1,81 @@
+# RA-Trabecular — Notebook 01: First Reproducible Example
+
+**Version:** 0.1.0  
+**Author:** Verónica Zumpano Blumenfeld  
+**ORCID:** 0009-0006-2030-1849  
+**License:** Apache 2.0
+
+This notebook demonstrates the complete RA-Trabecular workflow:
+1. Generate a Voronoi-based trabecular network.
+2. Apply progressive erosion.
+3. Compute IRCE trajectories.
+4. Identify the predicted critical transition.
+5. Visualize the results.
+
+---
+
+## The IRCE
+
+The Index of Effective Mechanical Connectivity (IRCE) combines mechanical competence, topological connectivity, and architectural anisotropy into a single dimensionless quantity.
+
+### Additive formulation
+
+Let
+
+$$M = \frac{E_{\mathrm{eroded}}}{E_{\mathrm{healthy}}}$$
+
+$$T = \frac{N_{\mathrm{LCC}}}{N_{\mathrm{total}}}$$
+
+$$A = \frac{A_{\mathrm{local}}}{A_{\mathrm{healthy}}}$$
+
+where:
+- $M$ is the normalized mechanical modulus ratio.
+- $T$ is the normalized connectivity ratio.
+- $A$ is the normalized anisotropy ratio.
+
+The additive IRCE is
+
+$$\mathrm{IRCE} = \alpha M + \beta T + \gamma A$$
+
+subject to
+
+$$\alpha + \beta + \gamma = 1$$
+
+with
+
+$$\alpha,\beta,\gamma \ge 0.$$
+
+### Multiplicative formulation
+
+An alternative synergistic formulation is
+
+$$\mathrm{IRCE}_{\mathrm{mult}} = M^{\alpha} T^{\beta} A^{\gamma}$$
+
+or explicitly
+
+$$\mathrm{IRCE}_{\mathrm{mult}} = \left( \frac{E_{\mathrm{eroded}}}{E_{\mathrm{healthy}}} \right)^{\alpha} \left( \frac{N_{\mathrm{LCC}}}{N_{\mathrm{total}}} \right)^{\beta} \left( \frac{A_{\mathrm{local}}}{A_{\mathrm{healthy}}} \right)^{\gamma}$$
+
+The multiplicative form models synergistic collapse: severe degradation in any component strongly penalizes the final score.
+
+---
+
+## Critical Transition
+
+The framework predicts the existence of a critical erosion threshold $p_c$ at which the trabecular network undergoes a rigidity transition.
+
+Near this point:
+
+$$P_{\infty}(p) \propto (p-p_c)^{\beta}$$
+
+where $P_{\infty}$ denotes the fraction of the network contained in the giant connected component.
+
+The hypothesis is that IRCE exhibits a marked inflection close to this transition.
+
+---
+
+## Expected Behaviour
+
+- IRCE decreases monotonically during erosion.
+- Mechanical competence declines faster than density alone predicts.
+- Connectivity loss accelerates near the critical regime.
+- Multiplicative IRCE is generally more sensitive to abrupt structural collapse.
