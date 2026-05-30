@@ -58,9 +58,8 @@ $$
 An alternative synergistic formulation is
 
 $$
-IRCE_{mult}
-===========
-
+\mathrm{IRCE}_{\mathrm{mult}}
+=
 M^{\alpha}
 \cdot
 T^{\beta}
@@ -71,19 +70,25 @@ $$
 Equivalently,
 
 $$
-IRCE_{mult}
-===========
-
-\left(\frac{E_{eroded}}{E_{healthy}}\right)^{\alpha}
+\mathrm{IRCE}_{\mathrm{mult}}
+=
+\left(
+\frac{E_{\mathrm{eroded}}}
+     {E_{\mathrm{healthy}}}
+\right)^{\alpha}
 \cdot
-\left(\frac{N_{LCC}}{N_{total}}\right)^{\beta}
+\left(
+\frac{N_{\mathrm{LCC}}}
+     {N_{\mathrm{total}}}
+\right)^{\beta}
 \cdot
-\left(\frac{A_{local}}{A_{healthy}}\right)^{\gamma}
+\left(
+\frac{A_{\mathrm{local}}}
+     {A_{\mathrm{healthy}}}
+\right)^{\gamma}
 $$
 
 The multiplicative form models synergistic structural collapse: degradation in one component cannot be fully compensated by preservation of the others. It is expected to provide greater sensitivity near the critical regime, where network failure becomes strongly non-linear.
-
----
 
 ## 3. Component Definitions
 
