@@ -4,7 +4,7 @@
 
 **Author:** Verónica Zumpano Blumenfeld
 **ORCID:** 0009-0006-2030-1849
-**Version:** 0.1.0 https://zenodo.org/records/20466007
+**Version:** 0.1.0 https://doi.org/10.5281/zenodo.20467022
 
 ---
 
