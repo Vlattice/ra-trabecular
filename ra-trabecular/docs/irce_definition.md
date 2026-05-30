@@ -10,74 +10,38 @@
 
 ## 1. Definition (additive form)
 
+## 1. Definition (additive form)
+
+The Index of Effective Mechanical Connectivity (IRCE) is defined as:
+
 $$
-\mathrm{IRCE}
-=
-\alpha
-\left(
-\frac{E^{*}_{\mathrm{eroded}}}
-     {E^{*}_{\mathrm{healthy}}}
-\right)
+IRCE =
+0.4 \left(\frac{E_{eroded}}{E_{healthy}}\right)
 +
-\beta
-\left(
-\frac{N_{LCC}}
-     {N_{total}}
-\right)
+0.4 \left(\frac{N_{LCC}}{N_{total}}\right)
 +
-\gamma
-\left(
-\frac{A_{local}}
-     {A_{local}^{\mathrm{healthy}}}
-\right)
+0.2 \left(\frac{A_{local}}{A_{healthy}}\right)
 $$
 
-$$
-T=\frac{N_{LCC}}{N_{total}}
-$$
+where:
+
+- $E_{eroded}$ = effective modulus after erosion
+- $E_{healthy}$ = effective modulus of the pristine network
+- $N_{LCC}$ = number of edges in the largest connected component
+- $N_{total}$ = total number of edges in the pristine network
+- $A_{local}$ = local anisotropy measure
+- $A_{healthy}$ = anisotropy of the reference healthy network
+
+The index is bounded by:
 
 $$
-A=\frac{A_{local}}{A_{local}^{healthy}}
+0 \le IRCE \le 1
 $$
 
-denote the normalized mechanical, topological, and anisotropy components, respectively.
+with:
 
-The Index of Effective Mechanical Connectivity (IRCE) is defined as
-
-$$
-\mathrm{IRCE}
-=============
-
-\alpha M
-+
-\beta T
-+
-\gamma A
-$$
-
-subject to
-
-$$
-\alpha+\beta+\gamma=1,
-\qquad
-\alpha,\beta,\gamma\ge0,
-\qquad
-\mathrm{IRCE}\in[0,1].
-$$
-
-By construction, the pristine reference network satisfies
-
-$$
-M=T=A=1,
-$$
-
-and therefore
-
-$$
-\mathrm{IRCE}=1.
-$$
-
----
+- IRCE = 1 corresponding to a mechanically intact network.
+- IRCE approaching 0 corresponding to a fragmented, mechanically incompetent structure.
 
 ## 2. Definition (multiplicative form)
 
