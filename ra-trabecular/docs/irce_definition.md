@@ -45,40 +45,33 @@ with:
 
 An alternative synergistic formulation is
 
-$$
-\mathrm{IRCE}_{mult}
-====================
+## 2. Definition (multiplicative form)
 
-M^\alpha
+An alternative synergistic formulation is:
+
+$$
+IRCE_{mult}
+=
+M^{\alpha}
 \cdot
-T^\beta
+T^{\beta}
 \cdot
-A^\gamma.
+A^{\gamma}
 $$
 
 Equivalently,
 
 $$
-\mathrm{IRCE}_{mult}
-====================
-
-\left(
-\frac{E^*_{eroded}}
-{E^**{healthy}}
-\right)^\alpha
+IRCE_{mult}
+=
+\left(\frac{E_{eroded}}{E_{healthy}}\right)^{\alpha}
 \cdot
-\left(
-\frac{N*{LCC}}
-{N_{total}}
-\right)^\beta
+\left(\frac{N_{LCC}}{N_{total}}\right)^{\beta}
 \cdot
-\left(
-\frac{A_{local}}
-{A_{local}^{healthy}}
-\right)^\gamma.
+\left(\frac{A_{local}}{A_{healthy}}\right)^{\gamma}
 $$
 
-The multiplicative form models *synergistic structural collapse*: degradation in one component cannot be fully compensated by preservation of the others. It is expected to provide greater sensitivity near the critical regime, where network failure becomes strongly non-linear.
+The multiplicative form models synergistic structural collapse: degradation in one component cannot be fully compensated by preservation of the others. It is expected to provide greater sensitivity near the critical regime, where network failure becomes strongly non-linear.
 
 ---
 
@@ -88,21 +81,27 @@ The multiplicative form models *synergistic structural collapse*: degradation in
 
 $$
 M=
-\frac{E^*_{eroded}}
-{E^*_{healthy}}
-\in[0,1]
+\frac{E_{eroded}}
+     {E_{healthy}}
 $$
 
-where $E^*$ denotes the apparent elastic modulus of the trabecular network under uniaxial compression along the principal anisotropy axis.
+with
 
-In v0.1.0, $E^*$ is estimated using a Gibson–Ashby-inspired approximation modulated by a connectivity penalty (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
+$$
+0 \le M \le 1
+$$
+
+where:
+
+- $E_{eroded}$ is the effective elastic modulus after erosion.
+- $E_{healthy}$ is the effective elastic modulus of the pristine reference network.
+
+In v0.1.0, the effective modulus is estimated using a Gibson–Ashby-inspired approximation modulated by a connectivity penalty (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
 
 Interpretation:
 
-* $M=1$: no mechanical degradation.
-* $M\rightarrow0$: near-complete loss of stiffness.
-
----
+- $M = 1$ → no mechanical degradation.
+- $M \rightarrow 0$ → near-complete loss of stiffness.
 
 ### 3.2 Topological Connectivity Ratio
 
