@@ -10,8 +10,6 @@
 
 ## 1. Definition (additive form)
 
-## 1. Definition (additive form)
-
 The Index of Effective Mechanical Connectivity (IRCE) is defined as:
 
 $$
