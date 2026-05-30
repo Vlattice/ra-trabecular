@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] — 2026-05-30
 
 ### Added
-- Concept paper v1.0 (archived independently on Zenodo).
+- Concept paper v1.0 (archived independently on Zenodo). https://doi.org/10.5281/zenodo.20466007
 - Initial repository structure: `src/`, `notebooks/`, `docs/`, `tests/`, `data/`, `figures/`.
 - Voronoi network generation module (`voronoi.py`).
 - Basic stochastic edge-removal erosion model (`erosion.py`).
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This release establishes prior art and timestamps the IRCE formulation.
 - FEM module is scaffolded but not yet integrated; targeted for v0.3.0.
 
-## [Unreleased]
+## Work in progress
 
 ### Planned for v0.2.0
 - Multiplicative (synergistic) IRCE formulation.
