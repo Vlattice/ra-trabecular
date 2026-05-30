@@ -1,4 +1,5 @@
 # Formal Definition of the IRCE
+# Formal Definition of the IRCE
 
 **Index of Effective Mechanical Connectivity**
 
@@ -10,48 +11,56 @@
 
 ## 1. Definition (additive form)
 
-The Index of Effective Mechanical Connectivity (IRCE) is defined as:
+Let
 
 $$
-IRCE =
-0.4 \left(\frac{E_{eroded}}{E_{healthy}}\right)
-+
-0.4 \left(\frac{N_{LCC}}{N_{total}}\right)
-+
-0.2 \left(\frac{A_{local}}{A_{healthy}}\right)
+M = \frac{E_{eroded}}{E_{healthy}}
 $$
 
-where:
+$$
+T = \frac{N_{LCC}}{N_{total}}
+$$
 
-- $E_{eroded}$ = effective modulus after erosion
-- $E_{healthy}$ = effective modulus of the pristine network
-- $N_{LCC}$ = number of edges in the largest connected component
-- $N_{total}$ = total number of edges in the pristine network
-- $A_{local}$ = local anisotropy measure
-- $A_{healthy}$ = anisotropy of the reference healthy network
+$$
+A = \frac{A_{local}}{A_{healthy}}
+$$
 
-The index is bounded by:
+denote the normalized mechanical, topological, and anisotropy components, respectively.
+
+The Index of Effective Mechanical Connectivity (IRCE) is defined as
+
+$$
+IRCE = \alpha M + \beta T + \gamma A
+$$
+
+subject to
+
+$$
+\alpha + \beta + \gamma = 1
+$$
+
+with
+
+$$
+\alpha,\beta,\gamma \ge 0
+$$
+
+and
 
 $$
 0 \le IRCE \le 1
 $$
 
-with:
-
-- IRCE = 1 corresponding to a mechanically intact network.
-- IRCE approaching 0 corresponding to a fragmented, mechanically incompetent structure.
+---
 
 ## 2. Definition (multiplicative form)
 
 An alternative synergistic formulation is
 
-## 2. Definition (multiplicative form)
-
-An alternative synergistic formulation is:
-
 $$
 IRCE_{mult}
-=
+===========
+
 M^{\alpha}
 \cdot
 T^{\beta}
@@ -63,7 +72,8 @@ Equivalently,
 
 $$
 IRCE_{mult}
-=
+===========
+
 \left(\frac{E_{eroded}}{E_{healthy}}\right)^{\alpha}
 \cdot
 \left(\frac{N_{LCC}}{N_{total}}\right)^{\beta}
@@ -80,9 +90,9 @@ The multiplicative form models synergistic structural collapse: degradation in o
 ### 3.1 Effective Modulus Ratio
 
 $$
-M=
+M =
 \frac{E_{eroded}}
-     {E_{healthy}}
+{E_{healthy}}
 $$
 
 with
@@ -93,95 +103,63 @@ $$
 
 where:
 
-- $E_{eroded}$ is the effective elastic modulus after erosion.
-- $E_{healthy}$ is the effective elastic modulus of the pristine reference network.
+* $E_{eroded}$ is the effective elastic modulus after erosion.
+* $E_{healthy}$ is the effective elastic modulus of the pristine reference network.
 
 In v0.1.0, the effective modulus is estimated using a Gibson–Ashby-inspired approximation modulated by a connectivity penalty (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
 
-Interpretation:
+**Interpretation**
 
-- $M = 1$ → no mechanical degradation.
-- $M \rightarrow 0$ → near-complete loss of stiffness.
+* $M = 1$: no mechanical degradation.
+* $M \rightarrow 0$: near-complete loss of stiffness.
 
 ### 3.2 Topological Connectivity Ratio
 
 $$
-T=
+T =
 \frac{N_{LCC}}
 {N_{total}}
-\in[0,1]
+$$
+
+with
+
+$$
+0 \le T \le 1
 $$
 
 where:
 
-* $N_{LCC}$ is the number of load-bearing edges belonging to the Largest Connected Component (LCC);
-* $N_{total}$ is the number of load-bearing edges in the pristine network.
+* $N_{LCC}$ is the number of edges in the largest connected component.
+* $N_{total}$ is the total number of load-bearing edges in the pristine network.
 
-Properties:
+**Interpretation**
 
-* Pristine fully connected network: $T=1$.
-* Fully fragmented network: $T\rightarrow0$.
-* $T$ is monotone non-increasing along any erosion trajectory.
+* $T = 1$: fully connected network.
+* $T \rightarrow 0$: highly fragmented network.
 
----
-
-### 3.3 Normalized Local Anisotropy
-
-First define the local anisotropy scalar
+### 3.3 Local Anisotropy Ratio
 
 $$
-A_{local}
-=========
-
-\frac{\lambda_1-\lambda_3}
-{\lambda_1+\lambda_3},
-\qquad
-0\le A_{local}\le1
-$$
-
-where
-
-$$
-\lambda_1\ge\lambda_2\ge\lambda_3
-$$
-
-are the eigenvalues of the length-weighted edge-orientation tensor
-
-$$
-T_{ij}
-======
-
-\frac{
-\sum_e \ell_e
-u_i^{(e)}
-u_j^{(e)}
-}{
-\sum_e \ell_e
-}.
-$$
-
-Here:
-
-* $\ell_e$ is the length of edge $e$;
-* $u^{(e)}$ is the unit direction vector associated with edge $e$.
-
-The normalized anisotropy component used by IRCE is
-
-$$
-A
-=
-
+A =
 \frac{A_{local}}
-{A_{local}^{healthy}}.
+{A_{healthy}}
 $$
 
-Interpretation:
+with
 
-* $A=1$: anisotropy preserved relative to the healthy reference.
-* $A<1$: degradation of directional load-transfer organization.
-* $A\rightarrow0$: collapse of preferential structural alignment.
+$$
+0 \le A \le 1
+$$
 
-Future versions will incorporate full fabric-tensor formulations based on Cowin–Mehrabadi theory.
+where:
+
+* $A_{local}$ is the anisotropy of the eroded network.
+* $A_{healthy}$ is the anisotropy of the healthy reference network.
+
+**Interpretation**
+
+* $A = 1$: anisotropy preserved.
+* $A \rightarrow 0$: anisotropic structure lost.
 
 ---
 
@@ -190,78 +168,46 @@ Future versions will incorporate full fabric-tensor formulations based on Cowin�
 Default weights:
 
 $$
-\alpha=0.4,
-\qquad
-\beta=0.4,
-\qquad
-\gamma=0.2.
+\alpha = 0.4
 $$
 
-Rationale:
+$$
+\beta = 0.4
+$$
 
-* Mechanical competence ($M$) and structural connectivity ($T$) are treated as co-dominant contributors.
-* Anisotropy ($A$) modulates load-transfer organization but is considered secondary in pure load-bearing failure.
+$$
+\gamma = 0.2
+$$
 
-These weights are provisional and will be evaluated through sensitivity analysis and empirical calibration.
+Rationale: modulus ratio and connectivity ratio are co-dominant contributors to structural competence, while anisotropy acts as a secondary modifier.
 
 ---
 
 ## 5. Critical IRCE Threshold
 
-The framework hypothesizes the existence of a critical value
+The framework hypothesizes the existence of a critical value:
 
 $$
-\mathrm{IRCE}_c
+IRCE_c
 $$
 
 such that:
 
-* For $\mathrm{IRCE}>\mathrm{IRCE}_c$, the load-bearing backbone remains continuous and mechanical competence is largely preserved.
-* For $\mathrm{IRCE}<\mathrm{IRCE}_c$, the network enters a fragmented regime characterized by accelerated stiffness loss.
+* $IRCE > IRCE_c$: mechanically competent network.
+* $IRCE < IRCE_c$: fragmented network with catastrophic stiffness loss.
 
-The threshold is not assumed to be strictly universal. Rather, it is hypothesized to exhibit limited variability within a given topology class and erosion regime.
-
-Estimation procedure:
-
-1. Generate multiple realizations of erosion trajectories.
-2. Compute $\mathrm{IRCE}(p_{rem})$.
-3. Identify the point of maximal curvature or maximal negative second derivative.
-4. Verify stability through finite-size scaling analyses.
+The value of $IRCE_c$ depends on topology class and erosion regime and will be estimated through finite-size scaling and trajectory analysis.
 
 ---
 
-## 6. Properties
+## 6. Falsifiable Predictions
 
-| Property                         | Additive               | Multiplicative     |
-| -------------------------------- | ---------------------- | ------------------ |
-| Bounds                           | $[0,1]$                | $[0,1]$            |
-| Dimensionless                    | Yes                    | Yes                |
-| Monotone under erosion           | Yes                    | Yes                |
-| Pristine value                   | $1$ (by normalization) | $1$                |
-| Sensitive to topological failure | Yes                    | Yes, more strongly |
-| Captures non-linear collapse     | Moderately             | Strongly           |
-| Falsifiable predictions          | Yes                    | Yes                |
+The IRCE framework makes three testable predictions:
+
+1. Existence of a reproducible critical transition along erosion trajectories.
+2. Divergence between IRCE and density-based metrics near structural collapse.
+3. Stronger correlation with measured stiffness than density-only descriptors.
 
 ---
 
-## 7. Falsifiability
-
-The IRCE framework makes three explicit, testable predictions:
-
-### Prediction 1: Critical Transition
-
-A reproducible inflection point exists along erosion trajectories and corresponds to the onset of rapid mechanical degradation.
-
-### Prediction 2: Divergence from Density Metrics
-
-Conventional density-based descriptors (BV/TV, BMD) systematically overestimate residual mechanical competence near the critical regime.
-
-### Prediction 3: Superior Mechanical Correlation
-
-IRCE correlates more strongly with measured stiffness and structural competence than density-only metrics when evaluated on realistic trabecular architectures.
-
-Each prediction can be evaluated through the validation pipeline described in `docs/roadmap.md`.
-
----
-
-*This document constitutes the public and citable specification of the Index of Effective Mechanical Connectivity (IRCE) as implemented in RA-Trabecular v0.1.0. Future revisions will be versioned through GitHub releases and archived through Zenodo to ensure transparency, reproducibility, and traceability.*
+*This document is part of the public, citable record of the IRCE formulation (v0.1.0). Subsequent revisions will be tracked through GitHub releases and Zenodo archives.*
