@@ -77,7 +77,7 @@ If you use this project, please cite the Zenodo record:
 
 Zumpano Blumenfeld, V. (2026). *RA-Trabecular: A Percolation-Based Framework for Modeling Trabecular Bone Degradation in Rheumatoid Arthritis Using Voronoi Tessellation and Effective Mechanical Connectivity*. Zenodo.
 
-DOI: https://doi.org/10.5281/zenodo.20466007
+DOI: https://doi.org/10.5281/zenodo.20467022
 
 ---
 
