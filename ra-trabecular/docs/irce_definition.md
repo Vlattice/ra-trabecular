@@ -2,123 +2,289 @@
 
 **Index of Effective Mechanical Connectivity**
 
-Author: Verónica Zumpano Blumenfeld
-ORCID: 0009-0006-2030-1849
-Version: 0.1.0 (concept-paper aligned)
+**Author:** Verónica Zumpano Blumenfeld
+**ORCID:** 0009-0006-2030-1849
+**Version:** 0.1.0 (concept-paper aligned)
 
 ---
 
 ## 1. Definition (additive form)
 
+Let
+
 $$
-\mathrm{IRCE} = \alpha \cdot \frac{E^*_{eroded}}{E^*_{healthy}}
-              + \beta  \cdot \frac{N_{LCC}}{N_{total}}
-              + \gamma \cdot A_{local}
+M=\frac{E^*_{eroded}}{E^*_{healthy}}
+$$
+
+$$
+T=\frac{N_{LCC}}{N_{total}}
+$$
+
+$$
+A=\frac{A_{local}}{A_{local}^{healthy}}
+$$
+
+denote the normalized mechanical, topological, and anisotropy components, respectively.
+
+The Index of Effective Mechanical Connectivity (IRCE) is defined as
+
+$$
+\mathrm{IRCE}
+=============
+
+\alpha M
++
+\beta T
++
+\gamma A
 $$
 
 subject to
 
 $$
-\alpha + \beta + \gamma = 1, \quad \alpha, \beta, \gamma \geq 0, \quad \mathrm{IRCE} \in [0, 1].
+\alpha+\beta+\gamma=1,
+\qquad
+\alpha,\beta,\gamma\ge0,
+\qquad
+\mathrm{IRCE}\in[0,1].
 $$
+
+By construction, the pristine reference network satisfies
+
+$$
+M=T=A=1,
+$$
+
+and therefore
+
+$$
+\mathrm{IRCE}=1.
+$$
+
+---
 
 ## 2. Definition (multiplicative form)
 
-$$
-\mathrm{IRCE}_{mult} = \left( \frac{E^*_{eroded}}{E^*_{healthy}} \right)^\alpha
-                     \cdot \left( \frac{N_{LCC}}{N_{total}} \right)^\beta
-                     \cdot A_{local}^\gamma
-$$
-
-The multiplicative form models *synergistic* structural collapse: loss of one component cannot be compensated by the others. It is provided as an alternative and is expected to outperform the additive form near the critical regime, where collapse is non-linear.
-
-## 3. Component definitions
-
-### 3.1 Effective modulus ratio
+An alternative synergistic formulation is
 
 $$
-M = \frac{E^*_{eroded}}{E^*_{healthy}} \in [0, 1]
+\mathrm{IRCE}_{mult}
+====================
+
+M^\alpha
+\cdot
+T^\beta
+\cdot
+A^\gamma.
 $$
 
-with $E^*$ the apparent elastic modulus of the trabecular network under uniaxial compression along the principal anisotropy axis. In v0.1.0, $E^*$ is computed via the Gibson-Ashby approximation modulated by an LCC penalty (see `mechanics.py`); in v0.3.0 this will be replaced with a full FEM beam/truss computation.
-
-### 3.2 Topological connectivity ratio
+Equivalently,
 
 $$
-T = \frac{N_{LCC}}{N_{total}} \in [0, 1]
+\mathrm{IRCE}_{mult}
+====================
+
+\left(
+\frac{E^*_{eroded}}
+{E^**{healthy}}
+\right)^\alpha
+\cdot
+\left(
+\frac{N*{LCC}}
+{N_{total}}
+\right)^\beta
+\cdot
+\left(
+\frac{A_{local}}
+{A_{local}^{healthy}}
+\right)^\gamma.
 $$
 
-with $N_{LCC}$ the number of edges contained in the largest connected component of the load-bearing subnetwork, and $N_{total}$ the initial (pristine) number of load-bearing edges.
+The multiplicative form models *synergistic structural collapse*: degradation in one component cannot be fully compensated by preservation of the others. It is expected to provide greater sensitivity near the critical regime, where network failure becomes strongly non-linear.
 
-Properties:
-- Pristine fully connected network: $T = 1$.
-- Fully fragmented: $T \to 0$.
-- $T$ is monotone non-increasing along any erosion trajectory.
+---
 
-### 3.3 Local anisotropy scalar
+## 3. Component Definitions
 
-$$
-A_{local} = \frac{\lambda_1 - \lambda_3}{\lambda_1 + \lambda_3} \in [0, 1]
-$$
-
-where $\lambda_1 \geq \lambda_2 \geq \lambda_3$ are the eigenvalues of the length-weighted edge-orientation tensor
+### 3.1 Effective Modulus Ratio
 
 $$
-T_{ij} = \frac{\sum_e \ell_e \, u^{(e)}_i u^{(e)}_j}{\sum_e \ell_e}
+M=
+\frac{E^*_{eroded}}
+{E^*_{healthy}}
+\in[0,1]
 $$
 
-with $\ell_e$ the length of edge $e$ and $u^{(e)}$ its unit direction vector.
+where $E^*$ denotes the apparent elastic modulus of the trabecular network under uniaxial compression along the principal anisotropy axis.
+
+In v0.1.0, $E^*$ is estimated using a Gibson–Ashby-inspired approximation modulated by a connectivity penalty (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
 
 Interpretation:
-- $A_{local} = 0$: perfectly isotropic edge orientation.
-- $A_{local} \to 1$: strong alignment along a single principal axis.
 
-In v0.2.0 this will be extended to the full fabric tensor (Cowin–Mehrabadi) formalism.
+* $M=1$: no mechanical degradation.
+* $M\rightarrow0$: near-complete loss of stiffness.
 
-## 4. Weight convention
+---
+
+### 3.2 Topological Connectivity Ratio
+
+$$
+T=
+\frac{N_{LCC}}
+{N_{total}}
+\in[0,1]
+$$
+
+where:
+
+* $N_{LCC}$ is the number of load-bearing edges belonging to the Largest Connected Component (LCC);
+* $N_{total}$ is the number of load-bearing edges in the pristine network.
+
+Properties:
+
+* Pristine fully connected network: $T=1$.
+* Fully fragmented network: $T\rightarrow0$.
+* $T$ is monotone non-increasing along any erosion trajectory.
+
+---
+
+### 3.3 Normalized Local Anisotropy
+
+First define the local anisotropy scalar
+
+$$
+A_{local}
+=========
+
+\frac{\lambda_1-\lambda_3}
+{\lambda_1+\lambda_3},
+\qquad
+0\le A_{local}\le1
+$$
+
+where
+
+$$
+\lambda_1\ge\lambda_2\ge\lambda_3
+$$
+
+are the eigenvalues of the length-weighted edge-orientation tensor
+
+$$
+T_{ij}
+======
+
+\frac{
+\sum_e \ell_e
+u_i^{(e)}
+u_j^{(e)}
+}{
+\sum_e \ell_e
+}.
+$$
+
+Here:
+
+* $\ell_e$ is the length of edge $e$;
+* $u^{(e)}$ is the unit direction vector associated with edge $e$.
+
+The normalized anisotropy component used by IRCE is
+
+$$
+A
+=
+
+\frac{A_{local}}
+{A_{local}^{healthy}}.
+$$
+
+Interpretation:
+
+* $A=1$: anisotropy preserved relative to the healthy reference.
+* $A<1$: degradation of directional load-transfer organization.
+* $A\rightarrow0$: collapse of preferential structural alignment.
+
+Future versions will incorporate full fabric-tensor formulations based on Cowin–Mehrabadi theory.
+
+---
+
+## 4. Weight Convention
 
 Default weights:
 
 $$
-\alpha = 0.4, \quad \beta = 0.4, \quad \gamma = 0.2.
+\alpha=0.4,
+\qquad
+\beta=0.4,
+\qquad
+\gamma=0.2.
 $$
 
-Rationale: modulus ratio and connectivity ratio are co-dominant; anisotropy modulates orientational integrity but is secondary in pure load-bearing failure. These weights are subject to sensitivity analysis (planned for v0.2.0) and to eventual data-driven calibration against micro-CT-based mechanical testing (planned for v0.4.0).
+Rationale:
 
-## 5. Critical IRCE threshold
+* Mechanical competence ($M$) and structural connectivity ($T$) are treated as co-dominant contributors.
+* Anisotropy ($A$) modulates load-transfer organization but is considered secondary in pure load-bearing failure.
 
-The framework hypothesizes the existence of a critical IRCE value $\mathrm{IRCE}_c$ such that:
-
-- For $\mathrm{IRCE} > \mathrm{IRCE}_c$: load-bearing backbone is continuous; mechanical competence is preserved.
-- For $\mathrm{IRCE} < \mathrm{IRCE}_c$: backbone fragmented; catastrophic loss of stiffness.
-
-The numerical value of $\mathrm{IRCE}_c$ depends on the topology class of the network (e.g., Voronoi vs. perturbed lattice) and on the erosion regime. It is estimated by:
-
-1. Generating multiple realizations of an erosion trajectory.
-2. Identifying the inflection point in $\mathrm{IRCE}(p_{rem})$ where the second derivative is maximally negative.
-3. Validating via finite-size scaling that the inflection position is approximately invariant across realizations.
-
-## 6. Properties
-
-| Property | Additive | Multiplicative |
-|----------|----------|----------------|
-| Bounds | $[0, 1]$ | $[0, 1]$ |
-| Monotone w.r.t. erosion | Yes | Yes |
-| Pristine value | $\alpha + \beta + \gamma \cdot A_{local}^0 = 1$ (if $A_{local}^0 = 1$) | $1$ (if all components = 1) |
-| Sensitive to topological failure even at finite density | Yes | Yes, more strongly |
-| Dimensionless | Yes | Yes |
-| Falsifiable predictions | Critical threshold; divergence from density metrics | Same, with sharper transition |
-
-## 7. Falsifiability
-
-The IRCE makes three falsifiable predictions:
-
-1. **Inflection at $\mathrm{IRCE}_c$**: a regime of accelerated decrease of IRCE along the erosion trajectory exists and its location is approximately reproducible across realizations of the same topological class.
-2. **Divergence from density**: standard density-based metrics overestimate residual mechanical competence near the critical regime, and the divergence is maximal in the early-to-moderate erosion regime (clinically relevant in early RA).
-3. **Cross-validation against micro-CT**: when applied to real (or realistic) datasets, IRCE correlates with measured stiffness more strongly than BV/TV alone.
-
-Each of these predictions can be tested by the validation pipeline in `docs/roadmap.md`.
+These weights are provisional and will be evaluated through sensitivity analysis and empirical calibration.
 
 ---
 
-*This document is part of the public, citable record of the IRCE formulation as of v0.1.0. Subsequent revisions will be tracked in `CHANGELOG.md` and reflected in new releases archived on Zenodo.*
+## 5. Critical IRCE Threshold
+
+The framework hypothesizes the existence of a critical value
+
+$$
+\mathrm{IRCE}_c
+$$
+
+such that:
+
+* For $\mathrm{IRCE}>\mathrm{IRCE}_c$, the load-bearing backbone remains continuous and mechanical competence is largely preserved.
+* For $\mathrm{IRCE}<\mathrm{IRCE}_c$, the network enters a fragmented regime characterized by accelerated stiffness loss.
+
+The threshold is not assumed to be strictly universal. Rather, it is hypothesized to exhibit limited variability within a given topology class and erosion regime.
+
+Estimation procedure:
+
+1. Generate multiple realizations of erosion trajectories.
+2. Compute $\mathrm{IRCE}(p_{rem})$.
+3. Identify the point of maximal curvature or maximal negative second derivative.
+4. Verify stability through finite-size scaling analyses.
+
+---
+
+## 6. Properties
+
+| Property                         | Additive               | Multiplicative     |
+| -------------------------------- | ---------------------- | ------------------ |
+| Bounds                           | $[0,1]$                | $[0,1]$            |
+| Dimensionless                    | Yes                    | Yes                |
+| Monotone under erosion           | Yes                    | Yes                |
+| Pristine value                   | $1$ (by normalization) | $1$                |
+| Sensitive to topological failure | Yes                    | Yes, more strongly |
+| Captures non-linear collapse     | Moderately             | Strongly           |
+| Falsifiable predictions          | Yes                    | Yes                |
+
+---
+
+## 7. Falsifiability
+
+The IRCE framework makes three explicit, testable predictions:
+
+### Prediction 1: Critical Transition
+
+A reproducible inflection point exists along erosion trajectories and corresponds to the onset of rapid mechanical degradation.
+
+### Prediction 2: Divergence from Density Metrics
+
+Conventional density-based descriptors (BV/TV, BMD) systematically overestimate residual mechanical competence near the critical regime.
+
+### Prediction 3: Superior Mechanical Correlation
+
+IRCE correlates more strongly with measured stiffness and structural competence than density-only metrics when evaluated on realistic trabecular architectures.
+
+Each prediction can be evaluated through the validation pipeline described in `docs/roadmap.md`.
+
+---
+
+*This document constitutes the public and citable specification of the Index of Effective Mechanical Connectivity (IRCE) as implemented in RA-Trabecular v0.1.0. Future revisions will be versioned through GitHub releases and archived through Zenodo to ensure transparency, reproducibility, and traceability.*
