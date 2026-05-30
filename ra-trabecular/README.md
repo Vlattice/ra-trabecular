@@ -60,9 +60,9 @@ By treating trabecular degradation as a critical phenomenon, RA-Trabecular aims 
 
 ## Key concept: the IRCE
 
-$$
-\mathrm{IRCE} = \alpha \cdot \frac{E^*_{eroded}}{E^*_{healthy}} + \beta \cdot \frac{N_{LCC}}{N_{total}} + \gamma \cdot A_{local}
-$$
+IRCE = α(E_eroded / E_healthy)
+     + β(N_LCC / N_total)
+     + γA_local
 
 with α + β + γ = 1, IRCE ∈ [0, 1].
 
