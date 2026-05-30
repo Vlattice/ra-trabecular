@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ra-trabecular"
+version = "0.1.0"
+description = "A percolation-based framework for modeling trabecular bone degradation in rheumatoid arthritis using Voronoi tessellation and the Index of Effective Mechanical Connectivity (IRCE)."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Verónica Zumpano Blumenfeld"}
+]
+keywords = [
+    "trabecular bone",
+    "rheumatoid arthritis",
+    "Voronoi tessellation",
+    "percolation theory",
+    "finite element analysis",
+    "bone biomechanics",
+    "computational rheumatology"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Physics"
+]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.11",
+    "networkx>=3.1",
+    "matplotlib>=3.7"
+]
+
+[project.optional-dependencies]
+visualization = ["pyvista>=0.42"]
+fem = ["scikit-fem>=9.0"]
+dev = ["pytest>=7.4", "jupyter>=1.0"]
+all = ["pyvista>=0.42", "scikit-fem>=9.0", "pytest>=7.4", "jupyter>=1.0", "pandas>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/Vlattice/ra-trabecular"
+Repository = "https://github.com/Vlattice/ra-trabecular"
+"Bug Tracker" = "https://github.com/Vlattice/ra-trabecular/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

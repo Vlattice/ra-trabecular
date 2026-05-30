@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software or framework, please cite it using the metadata below."
+title: "RA-Trabecular: A Percolation-Based Framework for Modeling Trabecular Bone Degradation in Rheumatoid Arthritis Using Voronoi Tessellation and Effective Mechanical Connectivity"
+abstract: >-
+  RA-Trabecular is an open-source computational framework that reformulates
+  trabecular bone degradation in rheumatoid arthritis as a percolation transition
+  over a Voronoi-tessellated network. It introduces the Index of Effective
+  Mechanical Connectivity (IRCE), a dimensionless composite metric integrating
+  normalized effective elastic modulus, topological connectivity of the
+  load-bearing subnetwork, and local anisotropy of the trabecular architecture.
+authors:
+  - family-names: "Zumpano Blumenfeld"
+    given-names: "Verónica"
+    orcid: "https://orcid.org/0009-0006-2030-1849"
+version: "0.1.0"
+date-released: "2026-05-30"
+license: Apache-2.0
+repository-code: "https://github.com/Vlattice/ra-trabecular"
+type: software
+keywords:
+  - trabecular bone
+  - rheumatoid arthritis
+  - Voronoi tessellation
+  - percolation theory
+  - finite element analysis
+  - bone biomechanics
+  - cellular solids
+  - connectivity index
+  - structural failure
+  - computational rheumatology
+preferred-citation:
+  type: generic
+  title: "RA-Trabecular: A Percolation-Based Framework for Modeling Trabecular Bone Degradation in Rheumatoid Arthritis Using Voronoi Tessellation and Effective Mechanical Connectivity"
+  authors:
+    - family-names: "Zumpano Blumenfeld"
+      given-names: "Verónica"
+      orcid: "https://orcid.org/0009-0006-2030-1849"
+  year: 2026
+  doi: "10.5281/zenodo.XXXXXXX"
