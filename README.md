@@ -4,7 +4,7 @@
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20467022.svg)](https://doi.org/10.5281/zenodo.20467022)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20466006.svg)](https://doi.org/10.5281/zenodo.20466006)
 ![Status](https://img.shields.io/badge/status-WIP-orange)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--2030--1849-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0006-2030-1849)
 
@@ -186,7 +186,7 @@ Beyond rheumatoid arthritis, the framework may apply to osteoporosis, psoriatic 
 
 If you use RA-Trabecular in academic work, please cite:
 
-> Zumpano Blumenfeld, V. (2026). *RA-Trabecular: A Percolation-Based Framework for Modeling Trabecular Bone Degradation in Rheumatoid Arthritis Using Voronoi Tessellation and Effective Mechanical Connectivity* [Software]. Zenodo. https://doi.org/10.5281/zenodo.20467022
+> Zumpano Blumenfeld, V. (2026). *RA-Trabecular: A Percolation-Based Framework for Modeling Trabecular Bone Degradation in Rheumatoid Arthritis Using Voronoi Tessellation and Effective Mechanical Connectivity* [Software]. Zenodo. https://doi.org/10.5281/zenodo.20466006
 
 Or use the machine-readable `CITATION.cff` file (GitHub will render a "Cite this repository" button automatically).
 
