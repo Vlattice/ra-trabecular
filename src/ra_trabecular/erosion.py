@@ -48,7 +48,7 @@ def _peripheral_weights(network: TrabecularNetwork) -> np.ndarray:
     progresses from the synovial interface inward.
     """
     midpoints = _edge_midpoints(network)
-    center = np.full(3, network.domain_size / 2)
+    center = network.domain_center
     dists = np.linalg.norm(midpoints - center, axis=1)
     # Higher weight for peripheral edges
     weights = dists / dists.max()
@@ -67,7 +67,7 @@ def _osteoclastic_weights(
     if rng is None:
         rng = np.random.default_rng()
     midpoints = _edge_midpoints(network)
-    hotspots = rng.uniform(0, network.domain_size, size=(n_hotspots, 3))
+    hotspots = rng.uniform(0, network.domain_extent, size=(n_hotspots, 3))
     sigma = network.domain_size / 4
     weights = np.zeros(len(midpoints))
     for h in hotspots:
@@ -79,7 +79,7 @@ def _osteoclastic_weights(
 def progressive_erosion(
     network: TrabecularNetwork,
     n_steps: int = 20,
-    max_removal_fraction: float = 0.5,
+    max_removal_fraction: float = 0.8,
     regime: ErosionRegime = ErosionRegime.UNIFORM,
     rng_seed: Optional[int] = None,
 ) -> List[ErosionState]:
@@ -93,7 +93,10 @@ def progressive_erosion(
     n_steps : int
         Number of erosion steps along the trajectory (including step 0).
     max_removal_fraction : float
-        Maximum fraction of edges to remove by the final step.
+        Maximum fraction of edges to remove by the final step. The default
+        (0.8) is chosen so that trajectories cross the percolation
+        transition, which for 3D Voronoi edge networks (mean coordination
+        z ≈ 4) lies at roughly 50–60 % of edges removed.
     regime : ErosionRegime
         Erosion model to apply.
     rng_seed : int, optional

@@ -3,7 +3,7 @@ Effective mechanical modulus estimation for trabecular networks.
 
 This module provides:
   (a) A fast approximate estimator based on Gibson-Ashby scaling laws
-      combined with a connectivity correction (used in v0.1.0).
+      applied to the load-bearing (largest connected) subnetwork.
   (b) A scaffold for a full FEM beam/truss formulation, planned for v0.3.0.
 
 The fast estimator is sufficient for the concept paper and for prototyping
@@ -13,86 +13,91 @@ the API is preserved.
 
 from __future__ import annotations
 import numpy as np
-import networkx as nx
 
-from .voronoi import TrabecularNetwork
-from .connectivity import largest_connected_component
+from .voronoi import TrabecularNetwork, load_bearing_subnetwork
 
 
 def effective_modulus_approx(
     network: TrabecularNetwork,
-    reference_total_edges: int,
+    reference_total_edges: int | None = None,
     matrix_modulus: float = 20e3,
     gibson_ashby_exponent: float = 2.0,
     geometric_constant: float = 1.0,
+    connectivity_penalty: bool = False,
 ) -> float:
     """
     Approximate effective elastic modulus using a Gibson-Ashby scaling law
-    modulated by a connectivity penalty.
+    applied to the load-bearing subnetwork.
 
     The approximation reads:
 
-        E* ≈ C · E_s · (φ_eff)^n · LCC_penalty
+        E* ≈ C · E_s · (φ_eff)^n
 
     where:
-      - φ_eff = (sum of edge volumes in LCC) / (domain volume)
-      - LCC_penalty = (N_LCC_edges / N_total_initial)
+      - φ_eff = (volume of struts in the largest connected component, LCC)
+                / (domain volume)
       - n is the Gibson-Ashby exponent (~2 for bending-dominated foams)
 
+    Only struts in the LCC contribute, so disconnected fragments carry no
+    load. Connectivity therefore already enters E* through φ_eff.
+
+    Changed in v0.1.1: the extra multiplicative factor
+    ``N_LCC / N_total`` used in v0.1.0 is now off by default
+    (``connectivity_penalty=False``). Together with φ_eff and the separate
+    T term of the IRCE it made connectivity count three times. It can still
+    be enabled for comparison with v0.1.0 results.
+
     This is a deliberate, transparent approximation. Replacement with a
-    full FEM solver is planned for v0.3.0 via the same function signature
-    or a sibling function `effective_modulus_fem(...)`.
+    full FEM solver is planned for v0.3.0 via a sibling function
+    ``effective_modulus_fem(...)``.
 
     Parameters
     ----------
     network : TrabecularNetwork
         Current network state.
-    reference_total_edges : int
-        Initial pristine edge count (for LCC normalization).
+    reference_total_edges : int, optional
+        Initial pristine edge count. Only used when
+        ``connectivity_penalty=True``.
     matrix_modulus : float
         Bone matrix modulus E_s (MPa).
     gibson_ashby_exponent : float
         Power-law exponent (typically 2 for bending, 1 for stretch).
     geometric_constant : float
         Pre-factor C in the Gibson-Ashby relation.
+    connectivity_penalty : bool
+        Reproduce the v0.1.0 estimator (multiply by N_LCC / N_total).
 
     Returns
     -------
     float
         Approximate effective modulus (MPa).
     """
-    if network.n_edges == 0 or reference_total_edges == 0:
+    if network.n_edges == 0:
         return 0.0
 
-    lcc = largest_connected_component(network)
-    n_lcc_edges = lcc.number_of_edges()
-    if n_lcc_edges == 0:
+    lcc = load_bearing_subnetwork(network)
+    if lcc.n_edges == 0:
         return 0.0
 
-    # Compute LCC edge volumes (cylindrical struts)
-    lcc_edge_set = set(map(lambda e: tuple(sorted(e)), lcc.edges()))
-    edges_arr = np.array(network.edges)
-    lengths_all = np.linalg.norm(
-        network.nodes[edges_arr[:, 1]] - network.nodes[edges_arr[:, 0]], axis=1
+    edges_arr = np.array(lcc.edges)
+    lengths = np.linalg.norm(
+        lcc.nodes[edges_arr[:, 1]] - lcc.nodes[edges_arr[:, 0]], axis=1
     )
+    radii = lcc.edge_thickness / 2.0
+    volume_sum = float(np.sum(np.pi * radii ** 2 * lengths))
 
-    volume_sum = 0.0
-    for idx, (a, b) in enumerate(network.edges):
-        if tuple(sorted((a, b))) in lcc_edge_set:
-            r = network.edge_thickness[idx] / 2.0
-            volume_sum += np.pi * r * r * lengths_all[idx]
-
-    domain_volume = network.domain_size ** 3
+    domain_volume = network.domain_volume
     phi_eff = volume_sum / domain_volume if domain_volume > 0 else 0.0
 
-    lcc_penalty = n_lcc_edges / reference_total_edges
+    E_eff = geometric_constant * matrix_modulus * (phi_eff ** gibson_ashby_exponent)
 
-    E_eff = (
-        geometric_constant
-        * matrix_modulus
-        * (phi_eff ** gibson_ashby_exponent)
-        * lcc_penalty
-    )
+    if connectivity_penalty:
+        if not reference_total_edges:
+            raise ValueError(
+                "reference_total_edges is required when connectivity_penalty=True."
+            )
+        E_eff *= lcc.n_edges / reference_total_edges
+
     return float(E_eff)
 
 

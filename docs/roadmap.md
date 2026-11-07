@@ -2,7 +2,7 @@
 
 This document outlines the planned trajectory of RA-Trabecular development. Each milestone corresponds to a tagged release archived on Zenodo with a persistent DOI.
 
-## v0.1.0 — Foundation (current)
+## v0.1.0 — Foundation
 
 **Status:** released 2026-05-30.
 
@@ -15,10 +15,20 @@ This document outlines the planned trajectory of RA-Trabecular development. Each
 - Approximate effective modulus via Gibson-Ashby + LCC penalty.
 - Test scaffolding and first reproducible notebook.
 
+## v0.1.1 — Corrections (current)
+
+**Status:** 2026-11-07.
+
+- IRCE normalized so that the pristine network has IRCE = 1.
+- Anisotropy component redefined as load-axis fabric retention.
+- Modulus estimator no longer double-counts connectivity.
+- Executable example notebook; flattened repository layout.
+
 ## v0.2.0 — Expanded metrics
 
 **Target:** Q3 2026.
 
+- Direction-selective erosion models.
 - Full fabric-tensor anisotropy (Cowin-Mehrabadi).
 - Sensitivity analysis on $\alpha, \beta, \gamma$ weights.
 - Multi-realization statistics: distribution of IRCE_c across seeds.
