@@ -61,6 +61,22 @@ IRCE specification and improving usability and reproducibility.
 
 ## [Unreleased]
 
+### Added
+- `ra_trabecular.ml`: machine-learning early warning of structural collapse.
+  - Reference-free structural features (density, topology, anisotropy),
+    including connectivity density, dangling-end and bridge fractions,
+    mean finite-cluster size and the Molloy–Reed ratio.
+  - Synthetic population generator with heterogeneous individuals
+    (cell size, strut thickness, anisotropy, baseline connectivity) and
+    parallel execution.
+  - Gradient-boosting models with cross-validation grouped by individual,
+    leave-one-regime-out evaluation and permutation importance.
+- `notebooks/02_early_warning.ipynb` and `figures/02_early_warning.png`.
+- `docs/machine_learning.md` (method, results, limitations) and
+  `docs/ra_morphometry.md` (published RA HR-pQCT morphometry for
+  calibration).
+- Optional dependency group `ml` (`scikit-learn`, `pandas`).
+
 ### Planned for v0.2.0
 - Direction-selective erosion models (so the anisotropy term carries
   information independent of T).

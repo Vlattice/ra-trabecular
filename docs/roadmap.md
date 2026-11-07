@@ -24,16 +24,19 @@ This document outlines the planned trajectory of RA-Trabecular development. Each
 - Modulus estimator on the load-bearing subnetwork.
 - Executable example notebook; flattened repository layout.
 
-## v0.2.0 — Expanded metrics
+## v0.2.0 — Expanded metrics and machine learning
 
-**Target:** Q3 2026.
+**Target:** Q1 2027.
+
+- **ML early warning (in progress):** reference-free prediction of distance to collapse from a single snapshot; density vs. connectivity comparison (`docs/machine_learning.md`, `02_early_warning.ipynb`).
+- Calibration of synthetic populations against published RA morphometry (`docs/ra_morphometry.md`).
 
 - Direction-selective erosion models.
 - Full fabric-tensor anisotropy (Cowin-Mehrabadi).
 - Sensitivity analysis on $\alpha, \beta, \gamma$ weights.
 - Multi-realization statistics: distribution of IRCE_c across seeds.
 - Comparison plots: IRCE vs. BV/TV vs. SMI vs. Tb.Th.
-- Companion notebook: `02_irce_sensitivity.ipynb`.
+- Companion notebooks: `02_early_warning.ipynb`, `03_irce_sensitivity.ipynb`.
 
 ## v0.3.0 — Full FEM integration
 

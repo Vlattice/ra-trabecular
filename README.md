@@ -83,6 +83,19 @@ A multiplicative (synergistic) formulation is also implemented as an alternative
 IRCE_mult = M^α · T^β · A^γ
 ```
 
+## Machine-learning early warning (v0.2.0-dev)
+
+Can a **single scan**, without the patient's healthy baseline, tell how close trabecular bone is to collapse? The `ra_trabecular.ml` module trains models on synthetic populations of heterogeneous networks to predict the remaining erosion budget before the percolation transition.
+
+| Reference-free features | R² (distance to collapse) | AUC (at risk) |
+|---|---|---|
+| Density (BV/TV-like) | ≈ 0 | 0.80 |
+| **Connectivity / topology** | **0.92** | **0.98** |
+
+Density descriptors do not predict proximity to failure; connectivity descriptors do, and they transfer to unseen erosion regimes. The dominant signal is the node-degree distribution, consistent with percolation theory (Molloy–Reed criterion). Details and limitations: [`docs/machine_learning.md`](docs/machine_learning.md).
+
+![Early warning](figures/02_early_warning.png)
+
 ## Repository structure
 
 ```
@@ -97,6 +110,8 @@ ra-trabecular/
 ├── docs/
 │   ├── theory.md              # Theoretical foundation
 │   ├── irce_definition.md     # Formal IRCE specification
+│   ├── machine_learning.md    # Early-warning ML: method and results
+│   ├── ra_morphometry.md      # Published RA morphometry for calibration
 │   └── roadmap.md             # Development plan
 ├── src/ra_trabecular/
 │   ├── __init__.py
@@ -105,11 +120,17 @@ ra-trabecular/
 │   ├── mechanics.py           # FEM and effective modulus
 │   ├── connectivity.py        # Graph-theoretic metrics
 │   ├── anisotropy.py          # MIL and anisotropy tensor
-│   └── irce.py                # IRCE computation
+│   ├── irce.py                # IRCE computation
+│   └── ml/                    # Early-warning machine learning
+│       ├── features.py        # Reference-free structural features
+│       ├── dataset.py         # Synthetic population generation
+│       └── early_warning.py   # Models and grouped evaluation
 ├── notebooks/
-│   └── 01_voronoi_basic.ipynb # First reproducible example (generates figures/01_irce_trajectory.png)
+│   ├── 01_voronoi_basic.ipynb # First reproducible example (figures/01_irce_trajectory.png)
+│   └── 02_early_warning.ipynb # ML early warning (figures/02_early_warning.png)
 ├── tests/
-│   └── test_irce.py
+│   ├── test_irce.py
+│   └── test_ml.py
 ├── data/                      # Datasets (or pointers to public ones)
 └── figures/                   # Reproducible outputs
 ```
@@ -173,7 +194,7 @@ Or use the machine-readable `CITATION.cff` file (GitHub will render a "Cite this
 
 - [x] **v0.1.0** — Concept paper, Voronoi generation, three erosion regimes, connectivity metrics, IRCE (additive and multiplicative)
 - [x] **v0.1.1** — Refined IRCE normalization, executable notebook (see [CHANGELOG](CHANGELOG.md))
-- [ ] **v0.2.0** — Direction-selective erosion, fabric-tensor anisotropy, weight sensitivity analysis
+- [ ] **v0.2.0** — ML early warning (in progress), direction-selective erosion, fabric-tensor anisotropy, weight sensitivity analysis
 - [ ] **v0.3.0** — FEM integration (beam/truss formulation)
 - [ ] **v0.4.0** — Validation against public micro-CT datasets
 - [ ] **v0.5.0** — Clinical-scale (HR-pQCT) extension
