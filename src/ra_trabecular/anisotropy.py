@@ -118,12 +118,11 @@ def anisotropy_component(
         subnetwork. A → 0 when the struts aligned with the principal load
         axis are lost. This is monotone along erosion trajectories.
 
-    ``"ratio"`` (v0.1.0 definition)
+    ``"ratio"`` (v0.1.0 formulation)
         ``A = A_local(eroded LCC) / A_local(healthy)``, clipped to [0, 1].
-        Note: for near-isotropic networks A_local(healthy) is small, so this
-        ratio is dominated by noise and tends to *increase* as the network
-        fragments (small clusters look anisotropic). It is kept for
-        comparison and sensitivity analysis only.
+        Describes the shape of the orientation distribution; for
+        near-isotropic networks it is less stable than the retention form.
+        Available for comparison and sensitivity analysis.
 
     Returns
     -------
