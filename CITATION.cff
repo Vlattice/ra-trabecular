@@ -12,8 +12,8 @@ authors:
   - family-names: "Zumpano Blumenfeld"
     given-names: "Verónica"
     orcid: "https://orcid.org/0009-0006-2030-1849"
-version: "0.1.0"
-date-released: "2026-05-30"
+version: "0.1.1"
+date-released: "2026-11-07"
 license: Apache-2.0
 repository-code: "https://github.com/Vlattice/ra-trabecular"
 type: software

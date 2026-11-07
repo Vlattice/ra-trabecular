@@ -11,7 +11,7 @@ This directory contains reproducible Jupyter notebooks demonstrating the RA-Trab
 
 | Notebook | Version | Description |
 |----------|---------|-------------|
-| `01_voronoi_basic.ipynb` | v0.1.0 | First reproducible example: Voronoi generation, erosion under three regimes, IRCE trajectory, critical point estimation. |
+| `01_voronoi_basic.ipynb` | v0.1.1 | First reproducible example: Voronoi generation, erosion under three regimes, IRCE trajectory, critical point estimation. |
 | `02_irce_sensitivity.ipynb` | v0.2.0 (planned) | Sensitivity analysis on α, β, γ weights and multi-realization statistics. |
 | `03_fem_vs_approx.ipynb` | v0.3.0 (planned) | Full FEM modulus vs. approximate Gibson-Ashby estimator. |
 | `04_microct_validation.ipynb` | v0.4.0 (planned) | Validation against public micro-CT datasets. |
