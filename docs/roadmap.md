@@ -15,13 +15,13 @@ This document outlines the planned trajectory of RA-Trabecular development. Each
 - Approximate effective modulus via Gibson-Ashby + LCC penalty.
 - Test scaffolding and first reproducible notebook.
 
-## v0.1.1 — Corrections (current)
+## v0.1.1 — Refinement (current)
 
 **Status:** 2026-11-07.
 
-- IRCE normalized so that the pristine network has IRCE = 1.
-- Anisotropy component redefined as load-axis fabric retention.
-- Modulus estimator no longer double-counts connectivity.
+- IRCE components normalized against the healthy reference (IRCE = 1 for the pristine network).
+- Anisotropy component as load-axis fabric retention.
+- Modulus estimator on the load-bearing subnetwork.
 - Executable example notebook; flattened repository layout.
 
 ## v0.2.0 — Expanded metrics

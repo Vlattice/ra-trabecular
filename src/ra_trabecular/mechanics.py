@@ -41,11 +41,8 @@ def effective_modulus_approx(
     Only struts in the LCC contribute, so disconnected fragments carry no
     load. Connectivity therefore already enters E* through φ_eff.
 
-    Changed in v0.1.1: the extra multiplicative factor
-    ``N_LCC / N_total`` used in v0.1.0 is now off by default
-    (``connectivity_penalty=False``). Together with φ_eff and the separate
-    T term of the IRCE it made connectivity count three times. It can still
-    be enabled for comparison with v0.1.0 results.
+    An additional ``N_LCC / N_total`` factor can be applied with
+    ``connectivity_penalty=True`` for comparison with the v0.1.0 estimator.
 
     This is a deliberate, transparent approximation. Replacement with a
     full FEM solver is planned for v0.3.0 via a sibling function

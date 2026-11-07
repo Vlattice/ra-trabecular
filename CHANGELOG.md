@@ -7,42 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1] — 2026-11-07
 
-### Fixed
-- **IRCE of the pristine network is now exactly 1.** In v0.1.0 the anisotropy
-  term used the raw descriptor `A_local` (≈ 0.08 for Voronoi networks) instead
-  of a component normalized against the healthy reference, as specified in
-  `docs/irce_definition.md`, so the pristine IRCE was ≈ 0.82.
-- **Anisotropy component redefined** as the fraction of healthy fabric retained
-  along the healthy principal load axis, evaluated on the load-bearing
-  subnetwork (`anisotropy_mode="retention"`, default). The literal ratio
-  `A_local / A_healthy` is noise-dominated for near-isotropic networks and
-  grows as the network fragments, which prevented the IRCE from approaching 0;
-  it remains available as `anisotropy_mode="ratio"`.
-- **Connectivity no longer counted three times.** The modulus estimator
-  multiplied the LCC-based volume fraction by an extra `N_LCC / N_total`
-  factor, on top of the separate `T` term. The factor is now off by default
-  (`connectivity_penalty=True` reproduces v0.1.0).
-- Domain volume and erosion geometry now account for `anisotropy_factor`
-  (z-stretched domains).
-- The IRCE is now non-increasing along erosion trajectories for all regimes
-  (tiny fluctuations, < 0.001, can remain deep in the fragmented regime when
-  the identity of the largest cluster switches).
+Refinement of the initial implementation, aligning the code with the formal
+IRCE specification and improving usability and reproducibility.
 
-### Changed
-- Default `max_removal_fraction` raised from 0.5 to 0.8 so default
-  trajectories cross the percolation transition (≈ 50–60 % of edges removed).
-- Repository flattened: the package now lives at the repository root, so
-  `git clone … && cd ra-trabecular && pip install -e .` works.
-- README: corrected the minimal example (it used non-existent arguments),
-  the citation DOI and the roadmap status.
-- `IRCEResult` gains `anisotropy_local` (raw descriptor) and `anisotropy_mode`.
+### IRCE formulation
+- All three components (M, T, A) are normalized against the healthy
+  reference network, so that IRCE = 1 for the pristine network and
+  IRCE → 0 after fragmentation, as specified in `docs/irce_definition.md`.
+- Anisotropy component defined as the fraction of healthy fabric retained
+  along the principal load axis of the load-bearing subnetwork
+  (`anisotropy_mode="retention"`, default). The original formulation remains
+  available as `anisotropy_mode="ratio"` for comparison.
+- Effective-modulus estimator applies the Gibson–Ashby scaling to the
+  load-bearing subnetwork, so connectivity enters the IRCE through a single
+  explicit term. The original estimator remains available via
+  `connectivity_penalty=True`.
+- Domain volume and erosion geometry take `anisotropy_factor` into account.
+- Default `max_removal_fraction` extended from 0.5 to 0.8 so trajectories
+  fully cover the percolation transition.
 
-### Added
-- `notebooks/01_voronoi_basic.ipynb` now contains executable code that
-  reproduces `figures/01_irce_trajectory.png`.
-- `load_bearing_subnetwork`, `anisotropy_component`, `irce_components`.
-- Tests: pristine IRCE = 1 for both formulations, monotonicity for every
-  regime, collapse past the transition, legacy-mode reproducibility.
+### Usability
+- Simplified repository layout: `pip install -e .` works directly after
+  cloning.
+- Fully executable example notebook reproducing
+  `figures/01_irce_trajectory.png`.
+- Updated README, documentation and roadmap.
+- New helpers: `load_bearing_subnetwork`, `anisotropy_component`,
+  `irce_components`; `IRCEResult` reports `anisotropy_local` and
+  `anisotropy_mode`.
+- Expanded test suite (21 tests).
 
 ## [0.1.0] — 2026-05-30
 

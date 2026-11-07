@@ -90,7 +90,7 @@ $$
 E^* \approx C\, E_s\, \phi_{eff}^{\,n}, \qquad \phi_{eff} = \frac{V_{struts}(LCC)}{V_{domain}}
 $$
 
-with $n = 2$ (bending-dominated). Disconnected fragments carry no load, so connectivity enters $M$ through $\phi_{eff}$. The additional factor $N_{LCC}/N_{total}$ used in v0.1.0 was removed by default because, together with $\phi_{eff}$ and the separate $T$ term, it counted connectivity three times; it remains available as `connectivity_penalty=True` for comparison (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
+with $n = 2$ (bending-dominated). Disconnected fragments carry no load, so connectivity enters $M$ through $\phi_{eff}$. Connectivity therefore enters the IRCE through a single explicit term, $T$. An estimator with an additional $N_{LCC}/N_{total}$ factor is available as `connectivity_penalty=True` for comparison (see `mechanics.py`). Future releases (v0.3.0+) will replace this approximation with full finite-element beam/truss simulations.
 
 **Interpretation**
 
@@ -142,9 +142,9 @@ clipped to $[0, 1]$, with $A = 0$ if no load-bearing subnetwork remains.
 * $A = 1$: the struts aligned with the principal load axis are preserved.
 * $A \rightarrow 0$: the load-axis architecture is lost.
 
-**Note on the v0.1.0 definition.** The original ratio $A = A_{local}/A_{healthy}$, with $A_{local} = (\lambda_1 - \lambda_3)/(\lambda_1 + \lambda_3)$ computed from the normalized fabric tensor, measures the *shape* of the orientation distribution but not how much architecture remains. For near-isotropic networks $A_{healthy}$ is small (≈ 0.08 for Poisson–Voronoi), so the ratio is dominated by noise, and it tends to *increase* as the network fragments because small clusters look anisotropic. In that form the anisotropy term does not vanish at collapse and $IRCE$ cannot approach 0. It is kept as `anisotropy_mode="ratio"` for sensitivity analysis.
+**Alternative formulation.** The ratio $A = A_{local}/A_{healthy}$, with $A_{local} = (\lambda_1 - \lambda_3)/(\lambda_1 + \lambda_3)$, describes the *shape* of the orientation distribution rather than the amount of load-axis architecture retained. For near-isotropic networks ($A_{healthy} \approx 0.08$ for Poisson–Voronoi) it is not a stable measure of degradation, so the retention form above is used by default. The ratio form is available as `anisotropy_mode="ratio"` for sensitivity analysis.
 
-**Caveat.** Under spatially isotropic erosion, $A$ closely tracks $T$. The anisotropy term carries independent information only when erosion is direction-selective (e.g. preferential loss of transverse or longitudinal trabeculae), which is a target for future erosion models.
+**Scope.** Under spatially isotropic erosion, $A$ closely tracks $T$. The anisotropy term carries independent information only when erosion is direction-selective (e.g. preferential loss of transverse or longitudinal trabeculae), which is a target for future erosion models.
 
 ---
 

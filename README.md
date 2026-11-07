@@ -172,7 +172,7 @@ Or use the machine-readable `CITATION.cff` file (GitHub will render a "Cite this
 ## Roadmap
 
 - [x] **v0.1.0** — Concept paper, Voronoi generation, three erosion regimes, connectivity metrics, IRCE (additive and multiplicative)
-- [x] **v0.1.1** — IRCE normalization and modulus fixes, executable notebook (see [CHANGELOG](CHANGELOG.md))
+- [x] **v0.1.1** — Refined IRCE normalization, executable notebook (see [CHANGELOG](CHANGELOG.md))
 - [ ] **v0.2.0** — Direction-selective erosion, fabric-tensor anisotropy, weight sensitivity analysis
 - [ ] **v0.3.0** — FEM integration (beam/truss formulation)
 - [ ] **v0.4.0** — Validation against public micro-CT datasets
