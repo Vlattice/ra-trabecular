@@ -59,10 +59,63 @@ class TrabecularNetwork:
         return len(self.edges)
 
     @property
+    def anisotropy_factor(self) -> float:
+        """Stretch factor applied along z at generation (1.0 if isotropic)."""
+        return float(self.metadata.get("anisotropy_factor", 1.0))
+
+    @property
+    def domain_extent(self) -> np.ndarray:
+        """Extent of the generation domain along (x, y, z)."""
+        return np.array(
+            [self.domain_size, self.domain_size,
+             self.domain_size * self.anisotropy_factor]
+        )
+
+    @property
+    def domain_volume(self) -> float:
+        """Volume of the (possibly z-stretched) generation domain."""
+        return float(np.prod(self.domain_extent))
+
+    @property
+    def domain_center(self) -> np.ndarray:
+        """Geometric center of the generation domain."""
+        return self.domain_extent / 2.0
+
+    @property
     def mean_coordination(self) -> float:
         """Average node coordination number z."""
         degrees = [d for _, d in self.graph.degree()]
         return float(np.mean(degrees)) if degrees else 0.0
+
+
+def load_bearing_subnetwork(network: TrabecularNetwork) -> TrabecularNetwork:
+    """
+    Return the load-bearing subnetwork: the largest connected component (by
+    node count) of ``network``, with its per-edge properties preserved.
+
+    An empty network is returned if ``network`` has no edges.
+    """
+    G = network.graph
+    active = G.subgraph([n for n, d in G.degree() if d >= 1])
+    if active.number_of_edges() == 0:
+        keep_nodes: set = set()
+    else:
+        keep_nodes = max(nx.connected_components(active), key=len)
+
+    idx = [i for i, (a, b) in enumerate(network.edges) if a in keep_nodes]
+    edges = [network.edges[i] for i in idx]
+    sub_graph = nx.Graph()
+    sub_graph.add_nodes_from(keep_nodes)
+    sub_graph.add_edges_from(edges)
+    return TrabecularNetwork(
+        nodes=network.nodes,
+        edges=edges,
+        graph=sub_graph,
+        edge_thickness=network.edge_thickness[idx],
+        edge_modulus=network.edge_modulus[idx],
+        domain_size=network.domain_size,
+        metadata=dict(network.metadata),
+    )
 
 
 def generate_voronoi_network(

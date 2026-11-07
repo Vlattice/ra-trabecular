@@ -8,26 +8,29 @@ ORCID:  0009-0006-2030-1849
 License: Apache-2.0
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Verónica Zumpano Blumenfeld"
 __orcid__ = "0009-0006-2030-1849"
 __license__ = "Apache-2.0"
 
-from .voronoi import generate_voronoi_network, TrabecularNetwork
+from .voronoi import generate_voronoi_network, TrabecularNetwork, load_bearing_subnetwork
 from .erosion import progressive_erosion, ErosionRegime
 from .connectivity import largest_connected_component, connectivity_ratio
-from .anisotropy import compute_local_anisotropy
-from .irce import compute_irce, compute_irce_multiplicative, IRCEResult
+from .anisotropy import compute_local_anisotropy, anisotropy_component
+from .irce import compute_irce, compute_irce_multiplicative, irce_components, IRCEResult
 
 __all__ = [
     "generate_voronoi_network",
     "TrabecularNetwork",
+    "load_bearing_subnetwork",
     "progressive_erosion",
     "ErosionRegime",
     "largest_connected_component",
     "connectivity_ratio",
     "compute_local_anisotropy",
+    "anisotropy_component",
     "compute_irce",
     "compute_irce_multiplicative",
+    "irce_components",
     "IRCEResult",
 ]

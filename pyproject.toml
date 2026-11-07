@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ra-trabecular"
-version = "0.1.0"
+version = "0.1.1"
 description = "A percolation-based framework for modeling trabecular bone degradation in rheumatoid arthritis using Voronoi tessellation and the Index of Effective Mechanical Connectivity (IRCE)."
 readme = "README.md"
 license = {text = "Apache-2.0"}
